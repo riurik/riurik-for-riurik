@@ -2,6 +2,7 @@ module('enumirate suites');
 
 QUnit.setup(function() {
   context.URL = $.URI(context, context.emum_url.concat(context.root, '&context=', context.suite));
+  QUnit.log(context.URL);
   var content = '[' + context.suite + ']';
   context.suites_list = '';
 

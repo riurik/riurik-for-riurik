@@ -1,4 +1,4 @@
-module('front page');
+module('front page i.e. root');
 
 asyncTest('is first page', function() {
   $.when( frame.go( $.URI(context, '') ) ).then(function(_$) {
