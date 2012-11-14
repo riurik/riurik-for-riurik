@@ -6,10 +6,12 @@ Feature: Create test
       And the front-page is opened
 '''
 
-Given /User is logged in/, ()->
-  $.pass
-  next()
+Given /User is logged in/, (next)->
+  $.when( frame.go('') ).then (_$)->
+    if $.trim( _$('#github-user').text() ) != 'riurikk'
+      next.fail('The riurik user should be logged in')
+    else
+      next()
   
-Given /the front-page is opened/, ()->
-  $.pass
+Given /the front-page is opened/, (next)->
   next()
