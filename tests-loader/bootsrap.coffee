@@ -53,9 +53,10 @@ test 'it should be checked if context is loaded', ->
   window.alert.restore()
   window.context = Context
   
-test 'the Waits object should be exported with context.timeout', ->
+test 'the Waits object should be exported with context timeout and check_every', ->
   ok riurik.exports.waitFor?, 'object is created'
   equal riurik.exports.waitFor.timeout, context.timeout, 'timeout is fine'
+  equal riurik.exports.waitFor.checkEvery, context.check_every, 'check_every is fine'
 
 test 'the QUnit engine should be loaded and configured properly', ->
   ok riurik.QUnit?, 'object is created'

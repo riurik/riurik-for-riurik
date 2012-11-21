@@ -7,6 +7,14 @@ test 'should use default timeout', ->
 test 'should use given timeout', ->
   waits = new riurik.Waits(250)
   equal waits.timeout, 250
+  
+test 'should use default checkEvery', ->
+  waits = new riurik.Waits()
+  equal waits.checkEvery, 100
+  
+test 'should use given checkEvery', ->
+  waits = new riurik.Waits(250, 350)
+  equal waits.checkEvery, 350
 
 asyncTest 'should wait for a certain condition to occure', ->
   expect(1)
