@@ -13,7 +13,7 @@ QUnit.setup ->
     set_context(@suite_path, "[#{@suite_context}]")
     write_test(@test1_path, "module 'module'\ntest 'first test', -> ok true, 'ok'")
     write_test(@test2_path, "module 'module'\ntest 'second test', -> ok true, 'ok'")
-    write_test(@test3_path, "module 'module'\ntest 'third test', -> ok false, 'проверка на ошибку \u041e'")
+    write_test(@test3_path, "module 'module'\ntest 'third test', -> ok false, 'just error'")
     
     purge( @suite_context, @suite_path )
    

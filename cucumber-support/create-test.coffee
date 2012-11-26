@@ -8,10 +8,8 @@ Feature: Create test
 
 Given /User is logged in/, (next)->
   $.when( frame.go('') ).then (_$)->
-    if $.trim( _$('#github-user').text() ) != 'riurik'
-      next.fail('The riurik user should be logged in')
-    else
-      next()
+    equal $.trim( _$('#github-user').text() ), 'riurik'
+    next()
   
 Given /the front-page is opened/, (next)->
   next()
