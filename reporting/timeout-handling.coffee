@@ -1,4 +1,4 @@
-module 'ajax exception handling'
+module 'timeout handling'
 
 test_content = '''
 module 'module'
@@ -14,7 +14,7 @@ QUnit.setup ->
     @suite_context = 'reporting'
     @url = $.URI(context, "actions/suite/run/?path=/#{@suite_path}&context=#{@suite_context}")
     
-    set_context(@suite_path, "[#{@suite_context}]")
+    set_context(@suite_path, "[#{@suite_context}]\nlibraries=sinon.js")
     write_test(@test1_path, test_content)
     
     purge( @suite_context, @suite_path )
@@ -24,18 +24,22 @@ asyncTest 'suite is started should be reported', ->
     $.waitFor.condition ->
       suite_started( context.suite_context, context.suite_path )
     .then ->
-      sinon.stub frame.window().jQuery, "ajax", ->
-        frame.window().jQuery.ajax.restore()
-        setTimeout(start, 1)
-        throw "Artificial exception to test reporting errors handling"
-      
-      frame.window().start()
-
+        start()
+        
 asyncTest 'suite is done should be reported', ->
-  $.waitFor.condition ->
-    suite_done( context.suite_context, context.suite_path )
-  .then ->
-    start()
+    sinon.stub frame.window().jQuery, "ajax", ->
+        #fwnd = frame.window()
+        frame.window().jQuery.ajax.restore()
+        clock = frame.window().sinon.useFakeTimers()
+        clock.tick(60*1000+1)
+        clock.restore()
+        $.waitFor.condition ->
+            suite_done( context.suite_context, context.suite_path )
+        .then ->
+            #clock.restore()
+            start()
+      
+    frame.window().start()
 
 QUnit.teardown ->
   delete_folder context.root
