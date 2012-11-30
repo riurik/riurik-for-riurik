@@ -37,24 +37,6 @@ test 'suite history should be saved', ->
   equal history[0].name, 'module: third test'
   equal history[0].passed, "0"
   equal history[0].failed, "1"
-    
-get_history = (context_name, suite_path)->
-  date = frame.window().riurik.reporter.date
-  history = null
-  
-  $.ajax({
-    type: 'GET',
-    async: false,
-    dataType: 'json',
-    url: $.URI(context, "#{suite_path}?history=#{date}&context=#{context_name}&json=true"),
-    success: (data)->
-      history = data.data
-    ,
-    error: (data)->
-      $.fail()
-  })
-  
-  return history
       
 QUnit.teardown ->
   delete_folder context.root

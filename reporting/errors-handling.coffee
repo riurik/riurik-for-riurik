@@ -26,15 +26,10 @@ asyncTest 'suite is started should be reported', ->
     .then ->
       sinon.stub frame.window().jQuery, "ajax", ->
         frame.window().jQuery.ajax.restore()
-        start()
+        setTimeout(start, 1)
+        throw "Artificial exception to test reporting errors handling"
       
       frame.window().start()
-###      
-asyncTest 'suite is done should be reported', ->
-  $.waitFor.condition( frameTestsAreDone ).then ->
-    _$.ajax.verify()
-    _$.ajax.restore()
-###      
 
 asyncTest 'suite is done should be reported', ->
   $.waitFor.condition ->

@@ -40,3 +40,21 @@ purge = (context_name, suite_path)->
   })
   
   return context.suite_status
+  
+get_history = (context_name, suite_path)->
+  date = frame.window().riurik.reporter.date
+  history = null
+  
+  $.ajax({
+    type: 'GET',
+    async: false,
+    dataType: 'json',
+    url: $.URI(context, "#{suite_path}?history=#{date}&context=#{context_name}&json=true"),
+    success: (data)->
+      history = data.data
+    ,
+    error: (data)->
+      $.fail()
+  })
+  
+  return history
