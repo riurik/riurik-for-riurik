@@ -1,23 +1,23 @@
-suite_started = (context_name, suite_path)->
-  suite_status( context_name, suite_path, (status)-> status != 'undefined' )
+suite_started = (context_name, suite_path, date)->
+  suite_status( context_name, suite_path, date, (status)-> status != 'undefined' )
   
-suite_done = (context_name, suite_path)->
-  suite_status( context_name, suite_path, (status)-> status == 'done' )
+suite_done = (context_name, suite_path, date)->
+  suite_status( context_name, suite_path, date, (status)-> status == 'done' )
   
-suite_status = (context_name, suite_path, check) ->  
-  status = get_status context_name, suite_path
+suite_status = (context_name, suite_path, date, check) ->  
+  status = get_status context_name, suite_path, date
   if check(status)
     $.pass( "suite is #{status}" )
     return true
   else
     return false
 
-get_status = (context_name, suite_path)->
+get_status = (context_name, suite_path, date)->
   $.ajax({
     type: 'GET',
     async: false,
     dataType: 'json',
-    url: $.URI(context, "report/status?context=#{context_name}&path=#{suite_path}"),
+    url: $.URI(context, "report/status?context=#{context_name}&path=#{suite_path}&date=#{date}"),
     success: (data)->
       context.suite_status = data.status
     ,

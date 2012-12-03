@@ -1,4 +1,6 @@
-Feature: Create suite
+Feature: Create directory
+    In order to organize and structure test cases Riurik provides the directories creation service.
+    These directories can be used as test suites.
 
   Scenario:
     Given it is necessary to create the folder-for-tests suite in the riurik directory index
