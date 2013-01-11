@@ -7,3 +7,8 @@ test 'including compiled global coffee library', ->
 test 'including compiled local coffee library', ->
   ok local_coffee_lib?, 'local lib compiled and local_coffee_lib is exists'
   ok local_coffee_lib(), 'local_coffee_lib is executable'
+        
+    
+
+		
+    	

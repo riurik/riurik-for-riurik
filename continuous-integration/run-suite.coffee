@@ -1,7 +1,8 @@
 module 'suite status'
 
 QUnit.setup ->
-    create_folder(@root, '/')
+    create_folder(context.root, '/')
+    
     context.suite_path = "#{context.root}"
     context.test1_path = "#{context.suite_path}/first-test.coffee"
     context.test2_path = "#{context.suite_path}/second-test.coffee"
