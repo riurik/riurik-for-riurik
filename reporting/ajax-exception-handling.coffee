@@ -13,6 +13,7 @@ QUnit.setup ->
     @test1_path = "#{@suite_path}/first-test.coffee"
     @suite_context = 'reporting'
     @url = $.URI(context, "actions/suite/run/?path=/#{@suite_path}&context=#{@suite_context}")
+    context.start_time = ''
     
     set_context(@suite_path, "[#{@suite_context}]")
     write_test(@test1_path, test_content)
@@ -22,7 +23,7 @@ QUnit.setup ->
 asyncTest 'suite is started should be reported', ->
   $.when( frame.go(context.url) ).then ->
     $.waitFor.condition ->
-      suite_started( context.suite_context, context.suite_path )
+      suite_started( context.suite_context, context.suite_path, context.start_time )
     .then ->
       sinon.stub frame.window().jQuery, "ajax", ->
         frame.window().jQuery.ajax.restore()
@@ -33,7 +34,7 @@ asyncTest 'suite is started should be reported', ->
 
 asyncTest 'suite is done should be reported', ->
   $.waitFor.condition ->
-    suite_done( context.suite_context, context.suite_path )
+    suite_done( context.suite_context, context.suite_path, context.start_time )
   .then ->
     start()
 
