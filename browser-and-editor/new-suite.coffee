@@ -1,21 +1,18 @@
-module 'edit test without context'
+module 'new suite'
 
-QUnit.setup ->
+QUnit.asyncSetup ->
     create_folder(context.root, '/')
-    context.suite_name = 'new-suite'
-    context.suite_path = context.root.concat('/', context.suite_name)
-    context.test_name = 'new-test.js'
-    context.test_path = context.suite_path.concat('/', context.test_name)
-    
-    create_folder(context.suite_name, context.root)
-    create_test(context.test_name, context.suite_path)
-
-asyncTest 'should propose creating context', ->
-    $.when( frame.go( context.test_path + '?editor' ) ).then ->
-        equal( _$('#create-context').text().trim(), 'Create context' )
-        equal( _$('#create-context').attr('title').trim(), 'To execute the test you have to define cotext' )
-    
+    $.when( frame.go( context.root ) ).then ->
         start()
         
+test 'title should be name of the suite', ->
+    equal frame.document().title, context.root
+  
+test 'should be possible to create folder or script', ->
+    hmenu = _$( 'ul.horizontal-menu' )
+    ok _$( 'a#new-suite', hmenu ).length > 0, 'create suite'
+    ok _$( 'a#new-test', hmenu ).length > 0, 'create test'
+    ok ! _$('a#run', hmenu).is(':visible'), 'Run button is NOT visible'
+        
 QUnit.teardown ->
-  delete_folder context.root
+    delete_folder context.root
