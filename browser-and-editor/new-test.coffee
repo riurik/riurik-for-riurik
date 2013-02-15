@@ -1,17 +1,12 @@
 module 'new test'
 
 QUnit.setup ->
-    create_folder(context.root, '/')
-    context.suite_name = 'new-suite'
-    context.suite_path = context.root.concat('/', context.suite_name)
-    context.test_name = 'new-test.js'
-    context.test_path = context.suite_path.concat('/', context.test_name)
-    
-    create_folder(context.suite_name, context.root)
-    create_test(context.test_name, context.suite_path)
+    $context.cwd_path = create_folder( $context.cwd, $context._root_ )
+    $context.suite_path = create_folder( 'new-suite', $context.cwd_path )
+    $context.test_path = create_test( 'new-test.js', $context.suite_path )
 
 asyncTest 'should propose creating context', ->
-    $.when( frame.go( context.test_path + '?editor' ) ).then ->
+    $.when( frame.go( $context.test_path + '?editor' ) ).then ->
         ok( not _$('a#run').is(':visible'), 'Run test button should not be visible' );
         equal( _$('#create-context').text().trim(), 'Create context' )
         equal( _$('#create-context').attr('title').trim(), 'To execute the test you have to define cotext' )
@@ -23,4 +18,4 @@ asyncTest 'should propose creating context', ->
         start()
         
 QUnit.teardown ->
-  delete_folder context.root
+  delete_folder $context.cwd_path

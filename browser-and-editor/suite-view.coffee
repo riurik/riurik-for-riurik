@@ -1,12 +1,12 @@
 module 'suite view'
 
 QUnit.asyncSetup ->
-    context.suite_name = 'browser-and-editor'
-    $.when( frame.go context.suite_name ).then ->
+    $context.suite_name = 'browser-and-editor'
+    $.when( frame.go get_current_suite() ).then ->
         start()
 
 test 'title should be name of the suite', ->
-    equal frame.document().title, context.suite_name
+    equal frame.document().title, $context.suite_name
   
 test 'control panel is available', ->
     hmenu = _$( 'ul.horizontal-menu' )

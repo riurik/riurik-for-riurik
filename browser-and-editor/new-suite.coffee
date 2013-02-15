@@ -1,12 +1,12 @@
 module 'new suite'
 
 QUnit.asyncSetup ->
-    create_folder(context.root, '/')
-    $.when( frame.go( context.root ) ).then ->
+    $context.path = create_folder(context.cwd, context._root_)
+    $.when( frame.go( $context.path ) ).then ->
         start()
         
 test 'title should be name of the suite', ->
-    equal frame.document().title, context.root
+    equal frame.document().title, $context.cwd
   
 test 'should be possible to create folder or script', ->
     hmenu = _$( 'ul.horizontal-menu' )
@@ -15,4 +15,4 @@ test 'should be possible to create folder or script', ->
     ok ! _$('a#run', hmenu).is(':visible'), 'Run button is NOT visible'
         
 QUnit.teardown ->
-    delete_folder context.root
+    delete_folder $context.path

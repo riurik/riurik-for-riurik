@@ -1,8 +1,8 @@
 module 'test view'
 
 QUnit.asyncSetup ->
-    context.test_path = 'browser-and-editor/test-view.coffee'
-    $.when( frame.go "#{context.test_path}?editor" ).then ->
+    current_test = "test-view.coffee"
+    $.when( frame.go "#{get_current_suite()}/#{current_test}?editor" ).then ->
         start()
         
 test 'control panel is available', ->

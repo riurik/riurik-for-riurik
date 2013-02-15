@@ -1,3 +1,7 @@
+function get_current_suite() {
+    return riurik.args.cwd;
+}
+
 function stubFile(path) {
   var url = $.URI(context, 'actions/test/stub/?path=' + path);
   riurik.log('stub file: ', url);
