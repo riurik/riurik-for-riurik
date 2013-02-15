@@ -1,9 +1,8 @@
 module 'removing coffee script'
 
 QUnit.setup ->
-  using context, ->
-    create_folder(@root, '/')
-    @suite_path = "#{@root}"
+  using $context, ->
+    @suite_path = create_folder($context, @cwd, @_root_)
     @test1_path = "#{@suite_path}/first-test.coffee"
     @test2_path = "#{@suite_path}/second-test.coffee"
     suite_context = 'coffee'
@@ -14,14 +13,14 @@ QUnit.setup ->
     write_test(@test2_path, "test 'second test', -> ok true, 'ok'")
              
 asyncTest 'should delete compiled js file so it will not be executed next time', ->
-  $.when( frame.go(context.url) ).then ->
+  $.when( frame.go($context.url) ).then ->
     $.waitFor.condition( frameTestsAreDone ).then ->
       equal _$('.test-name').length, 2, 'both tests are executed first time'
-      delete_test context.test2_path
-      $.when( frame.go(context.url) ).then ->
+      delete_test( $context, $context.test2_path )
+      $.when( frame.go($context.url) ).then ->
         $.waitFor.condition( frameTestsAreDone ).then ->
           equal _$('.test-name').length, 1, 'only one test is executed next time'
           start()
 
 QUnit.teardown ->
-  delete_folder context.root
+  delete_folder( $context, $context.suite_path )

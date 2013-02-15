@@ -1,9 +1,7 @@
 module 'suite status'
 
 QUnit.setup ->
-    create_folder(context.root, '/')
-    
-    context.suite_path = "#{context.root}"
+    context.suite_path = create_folder(context, context.cwd, context._root_)
     context.test1_path = "#{context.suite_path}/first-test.coffee"
     context.test2_path = "#{context.suite_path}/second-test.coffee"
     context.test3_path = "#{context.suite_path}/third-test.coffee"
@@ -32,4 +30,4 @@ asyncTest 'suite is done should be reported', ->
         start()
 
 QUnit.teardown ->
-    delete_folder context.root
+    delete_folder context, context.suite_path

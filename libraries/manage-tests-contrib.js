@@ -19,12 +19,12 @@ function stubFile(path) {
   
 };
 
-function create_suite(name, path, content) {
-  create_folder(name, path);
+function create_suite(context, name, path, content) {
+  create_folder(context, name, path);
   set_context(path.concat('/', name), content); 
 };
 
-function create_folder(name, path) {
+function create_folder(context, name, path) {
   
   $.ajax({
     type: 'POST',
@@ -59,7 +59,7 @@ function create_test(test_name, suite_path) {
   });
 };
 
-function delete_object(type, path) {
+function delete_object(context, type, path) {
   var last_index = path.lastIndexOf('/');
   $.ajax({
     type: 'POST',
@@ -75,12 +75,12 @@ function delete_object(type, path) {
   });
 };
 
-function delete_test(test_path) {
-  delete_object('test', test_path)
+function delete_test(context, test_path) {
+  delete_object(context, 'test', test_path)
 };
 
-function delete_folder(path) {
-  delete_object('folder', path)
+function delete_folder(context, path) {
+  delete_object(context, 'folder', path)
 };
 
 function write_test(path, content) {

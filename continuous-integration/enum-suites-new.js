@@ -1,19 +1,18 @@
 module('enumirate suites');
 
 QUnit.setup(function() {
-  context.URL = $.URI(context, context.emum_url.concat(context.root, '&context=', context.suite));
-  QUnit.log(context.URL);
   var content = '[' + context.suite + ']';
   context.suites_list = '';
 
-  create_folder(context, context.root, '/');
+  context.cwd_path = create_folder(context, context.cwd, context._root_);
   $.each(context.suites, function(i, value) {
-    create_suite(context, value, context.root, content);
+    create_suite(context, value, context.cwd_path, content);
   });
   
-  var suite_path = context.root.concat('/', context.suites[0]);
-  QUnit.log(suite_path);
+  var suite_path = context.cwd_path.concat('/', context.suites[0]);
   set_context(suite_path, '[other-context]');
+  context.URL = $.URI(context, context.emum_url.concat(context.cwd_path, '&context=', context.suite));
+  
 });
 
 function enum_suites(URL, checker) {
@@ -69,5 +68,5 @@ asyncTest('should not return suites if no context', function() {
 });
 
 QUnit.teardown(function() {
-  delete_folder(context, context.root);
+  delete_folder(context, context.cwd_path);
 });
