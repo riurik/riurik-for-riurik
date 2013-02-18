@@ -3,7 +3,7 @@ module('create a suite');
 QUnit.setup(function() {
   context.suite_name = 'first-suite';
   context.suite_path = context.root.concat('/', context.suite_name);
-  create_folder(context.root, '/');
+  create_folder(context, context.root, '/');
 });
 
 asyncTest('suite should be created', function() {
@@ -24,5 +24,5 @@ asyncTest('suite should be created', function() {
 });
 
 QUnit.teardown(function() {
-  delete_folder( context.root );
+  delete_folder( context, context.root );
 });

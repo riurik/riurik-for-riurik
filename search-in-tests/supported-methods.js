@@ -2,7 +2,7 @@ module( 'supported methods are' );
 
 QUnit.setup( function() {
   with(context) {
-    create_folder(context.root, '/');
+    create_folder(context, context.root, '/');
     context.suite_path = root.concat('/', suite_name);
     context.test_path = suite_path + '/' + test_name;
     create_test( test_name, suite_path );
@@ -39,5 +39,5 @@ asyncTest( 'RegExp', function() {
 });
 
 QUnit.teardown( function() {
-  delete_folder(context.root);
+  delete_folder(context, context.root);
 });

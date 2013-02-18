@@ -2,7 +2,7 @@ module 'suite reporting'
 
 QUnit.setup ->
   using context, ->
-    create_folder(@root, '/')
+    create_folder(context, @root, '/')
     @suite_path = "#{@root}"
     @test1_path = "#{@suite_path}/first-test.coffee"
     @test2_path = "#{@suite_path}/second-test.coffee"
@@ -40,4 +40,4 @@ test 'suite history should be saved', ->
   equal history[0].failed, "1"
       
 QUnit.teardown ->
-  delete_folder context.root
+  delete_folder context, context.root

@@ -4,7 +4,7 @@ QUnit.asyncSetup(function(){
   context.test_name = 'test-for-test';
   context.suite_name = 'first-suite';
   context.suite_path = context.root.concat('/', context.suite_name);
-  create_folder(context.root, '/');
+  create_folder(context, context.root, '/');
   $.when( frame.go($.URI(context, context.root)) ).then(function(_$) {
     
     $.when( _$('a#new-suite').click() ).then(function() {
@@ -55,5 +55,5 @@ asyncTest('check created', function() {
 });
 
 QUnit.teardown(function() {
-  delete_folder(context.root);
+  delete_folder(context, context.root);
 });

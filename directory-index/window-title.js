@@ -4,8 +4,8 @@ QUnit.setup(function() {
   context.suite_name = 'first-suite';
   context.suite_path = context.root + '/' + context.suite_name;
   context.test_name = 'first-test.js';
-  create_folder(context.root, '/');
-  var path = create_folder(context.suite_name, context.root);
+  create_folder(context, context.root, '/');
+  var path = create_folder(context, context.suite_name, context.root);
 });
 
 asyncTest('title for folder', function() {
@@ -34,5 +34,5 @@ asyncTest('title for test', function() {
 });
 
 QUnit.teardown(function() {
-  delete_folder(context.root);
+  delete_folder(context, context.root);
 });

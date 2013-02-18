@@ -8,7 +8,7 @@ asyncTest 'first test', ->
 
 QUnit.setup ->
   using context, ->
-    create_folder(@root, '/')
+    create_folder(context, @root, '/')
     @suite_path = "#{@root}"
     @test1_path = "#{@suite_path}/first-test.coffee"
     @suite_context = 'reporting'
@@ -42,4 +42,4 @@ asyncTest 'suite is done should be reported', ->
     frame.window().start()
 
 QUnit.teardown ->
-  delete_folder context.root
+  delete_folder context, context.root

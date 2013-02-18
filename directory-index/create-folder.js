@@ -1,7 +1,7 @@
 module('create folder');
 
 QUnit.setup(function() {
-  create_folder(context.root, '/');
+  create_folder(context, context.root, '/');
   context.folder_name = 'first-test-dir';
   context.full_folder_path = context.root.concat('/', context.folder_name);
 });
@@ -40,5 +40,5 @@ asyncTest('error reporting', function() {
 });
 
 QUnit.teardown(function() {
-  delete_folder( context.root );
+  delete_folder( context, context.root );
 });
