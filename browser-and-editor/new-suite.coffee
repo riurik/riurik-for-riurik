@@ -1,18 +1,27 @@
-module 'new suite'
+describe 'create new suite', ->
 
-QUnit.asyncSetup ->
-    $context.path = create_folder(context.cwd, context._root_)
-    $.when( frame.go( $context.path ) ).then ->
-        start()
+    before (done)->
+        $context.path = create_folder($context.cwd, $context._root_)
+        $.when( frame.go( $context.path ) ).then ->
+            done()
         
-test 'title should be name of the suite', ->
-    equal frame.document().title, $context.cwd
+    after ->
+        delete_folder $context.path
+        
+    it 'title should be name of the current folder', ->
+        
+        expect( frame.document().title ).to.eql( $context.cwd )
   
-test 'should be possible to create folder or script', ->
-    hmenu = _$( 'ul.horizontal-menu' )
-    ok _$( 'a#new-suite', hmenu ).length > 0, 'create suite'
-    ok _$( 'a#new-test', hmenu ).length > 0, 'create test'
-    ok ! _$('a#run', hmenu).is(':visible'), 'Run button is NOT visible'
+    describe 'should be possible to create folder or script', ->
         
-QUnit.teardown ->
-    delete_folder $context.path
+        before ->
+            $context.hmenu = _$( 'ul.horizontal-menu' )
+            
+        it 'create suite', ->
+            expect( _$( 'a#new-suite', $context.hmenu ) ).to.not.be.empty
+            
+        it 'create test', ->
+            expect( _$( 'a#new-test', $context.hmenu ) ).to.not.be.empty
+    
+        it 'Run button is NOT visible', ->
+            expect( _$('a#run', $context.hmenu) ).to.not.be.visible

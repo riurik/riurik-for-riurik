@@ -1,10 +1,10 @@
 describe 'context view - editor with .context.ini file', ->
 
     before ->
-        $context.path = create_folder($context, $context.cwd, $context._root_)
+        $context.path = create_folder($context.cwd, $context._root_)
         
     after ->
-        delete_folder $context, $context.path
+        delete_folder( $context.path )
 
     describe 'control panel is available', ->
         

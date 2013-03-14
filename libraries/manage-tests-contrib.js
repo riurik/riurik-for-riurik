@@ -19,17 +19,17 @@ function stubFile(path) {
   
 };
 
-function create_suite(context, name, path, content) {
-  create_folder(context, name, path);
+function create_suite( name, path, content ) {
+  create_folder( name, path );
   set_context(path.concat('/', name), content); 
 };
 
-function create_folder(context, name, path) {
+function create_folder( name, path ) {
   
   $.ajax({
     type: 'POST',
     async: false,
-    url: $.URI(context, 'actions/folder/create/'),
+    url: $.FULL_URL('actions/folder/create/'),
     data: { 'object-name': name, 'path': path },
     success: function(data) {
       riurik.log('suite "' + name + '" at "' + path + '" is created');
@@ -48,7 +48,7 @@ function create_test(test_name, suite_path) {
   $.ajax({
     type: 'POST',
     async: false,
-    url: $.URI(context, 'actions/test/create/'),
+    url: $.FULL_URL('actions/test/create/'),
     data: { 'object-name': test_name, 'path': suite_path },
     success: function(data) {
       riurik.log('create test "' + test_name + '" at "' + suite_path + '" is OK');
@@ -57,14 +57,16 @@ function create_test(test_name, suite_path) {
       riurik.log('create test "' + test_name + '" at "' + suite_path + '" is failed');
     }
   });
+  
+  return suite_path + '/' + test_name;
 };
 
-function delete_object(context, type, path) {
+function delete_object( type, path ) {
   var last_index = path.lastIndexOf('/');
   $.ajax({
     type: 'POST',
     async: false,
-    url: $.URI(context, 'actions/remove/'),
+    url: $.FULL_URL( 'actions/remove/' ),
     data: { 'url': path.substring(0, last_index), 'path': path },
     success: function(data) {
       riurik.log(type + ' at "' + path + '" is deleted');
@@ -75,12 +77,12 @@ function delete_object(context, type, path) {
   });
 };
 
-function delete_test(context, test_path) {
-  delete_object(context, 'test', test_path)
+function delete_test( test_path ) {
+  delete_object( 'test', test_path )
 };
 
-function delete_folder(context, path) {
-  delete_object(context, 'folder', path)
+function delete_folder( path ) {
+  delete_object( 'folder', path )
 };
 
 function write_test(path, content) {
@@ -88,7 +90,7 @@ function write_test(path, content) {
   $.ajax({
     type: 'POST',
     async: false,
-    url: $.URI(context, 'actions/test/save/'),
+    url: $.FULL_URL( 'actions/test/save/' ),
     data: { 'url': path, 'path': path, 'content': content },
     success: function(data) {
       riurik.log('write script "' + path + '" is done');
