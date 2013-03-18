@@ -1,4 +1,4 @@
-describe 'create new suite', ->
+describe 'new folder', ->
 
     before (done)->
         $context.path = create_folder($context.cwd, $context._root_)
@@ -10,9 +10,9 @@ describe 'create new suite', ->
         
     it 'title should be name of the current folder', ->
         
-        expect( frame.document().title ).to.eql( $context.cwd )
+        expect( frame.document().title ).to.equal( $context.cwd )
   
-    describe 'should be possible to create folder or script', ->
+    describe 'toolbar is available', ->
         
         before ->
             $context.hmenu = _$( 'ul.horizontal-menu' )
