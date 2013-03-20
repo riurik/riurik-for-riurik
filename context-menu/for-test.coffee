@@ -1,30 +1,48 @@
-module 'context menu inside suite'
+describe 'context menu inside suite', ->
 
-QUnit.asyncSetup ->
-  using context, ->
-    @menu_locator = '#dir-index-menu li'
-    @suite_path = "#{@root}/#{@cws}/first-suite"
-    set_context(@suite_path, "[#{@cws}]")
-    $.when( frame.go( @suite_path ) ).then ->
-      start()
+    before (done)->
+        $context.number_of_items = 5
+        $context.menu_locator = '#dir-index-menu li'
+        $context.suite_path = "#{$context._root_}/#{$context.cws}/first-suite"
+        set_context( $context.suite_path, "[#{$context.cws}]" )
+        $.when( frame.go( $context.suite_path ) ).then ->
+            done()
+            
+    after ->
+        delete_folder( $context.suite_path )
       
-test 'should have appropriate actions', ->
-  using context, ->
-    equal _$("#{@menu_locator}").length, 5, 'there are context menu items'
-    equal _$("#{@menu_locator} a:contains('Context')").attr('href'), '#editctx', 'Edit context'
-    equal _$("#{@menu_locator} a:contains('Specification')").attr('href'), '#editspec', 'Edit specification'
-    equal _$("#{@menu_locator} a:contains('Delete')").attr('href'), '#remove', 'Remove a suite or a test'
-    equal _$("#{@menu_locator} a:contains('Rename')").attr('href'), '#rename', 'Rename a suite or a test'
-    equal _$("#{@menu_locator} a:contains('Run')").attr('href'), '#run', 'Execute a suite or a test'
+    describe 'should have appropriate menu items for each action', ->
+        
+        it "number of menu items", ->
+            expect( _$( "#{$context.menu_locator}" ).length ).to.equal( $context.number_of_items )
+            
+        it 'Edit context', ->
+            expect( _$("#{$context.menu_locator} a:contains('Context')") ).to.have.attr( 'href', '#editctx' )
+            
+        it 'Edit specification', ->
+            expect( _$("#{$context.menu_locator} a:contains('Specification')") ).to.have.attr( 'href', '#editspec' )
+            
+        it 'Remove a suite or a test', ->
+            expect( _$("#{$context.menu_locator} a:contains('Delete')") ).to.have.attr( 'href', '#remove' )
+            
+        it 'Rename a suite or a test', ->
+            expect( _$("#{$context.menu_locator} a:contains('Rename')") ).to.have.attr( 'href', '#rename' )
+            
+        it 'Execute a suite or a test', ->
+            expect( _$("#{$context.menu_locator} a:contains('Run')") ).to.have.attr('href', '#run' )
     
-asyncTest 'Edit context should open context for editing', ->
-  $.when( frame.go( context.suite_path ) ).then ->
-    target = _$("#{context.menu_locator} a:contains('Context')")
-    action = target.attr('href').substring(1)
-    window.frames[0].ctxMenuActions.dispatcher(action, target)
-    $.when( frame.load() ).then ->
-      fwnd = frame.window()
-      $.waitFor.condition( -> frame.window().editor? ).then ->
-        console.log frame.window().editor.getValue()
-        console.log _$('.CodeMirror-lines')
-        start()
+    describe 'Edit context should open context for editing', ->
+        
+        before (done)->
+            target = _$( "#{$context.menu_locator} a:contains('Context')" )
+            action = target.attr('href').substring(1)
+            window.frames[0].ctxMenuActions.dispatcher(action, target)
+            $.when( frame.load() ).then ->
+                fwnd = frame.window()
+                $.waitFor.condition( -> frame.window().editor? ).then ->
+                console.log frame.window().editor.getValue()
+                console.log _$('.CodeMirror-lines')
+                done()
+                
+        it 'should be OK', ->
+            expect( true ).to.be.ok
