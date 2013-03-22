@@ -1,4 +1,4 @@
-describe 'context menu inside suite', ->
+describe 'for suite', ->
 
     before (done)->
         $context.number_of_items = 5
@@ -33,7 +33,7 @@ describe 'context menu inside suite', ->
     
     describe 'Edit context should open context for editing', ->
         
-        before (done)->
+        before.skip (done)->
             target = _$( "#{$context.menu_locator} a:contains('Context')" )
             action = target.attr('href').substring(1)
             window.frames[0].ctxMenuActions.dispatcher(action, target)
