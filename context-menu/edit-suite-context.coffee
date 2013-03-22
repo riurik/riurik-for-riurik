@@ -1,12 +1,10 @@
-describe 'edit test context', ->
+describe 'edit suite context', ->
     
     before (done)->
-        $context.test_name = 'new-test.js'
         $context.suite_path = create_folder($context.cwd, $context._root_)
-        $context.test_path = create_test( $context.test_name, $context.suite_path )
         set_context( $context.suite_path, "[#{$context.ctx_name}]" )
-        $.when( frame.go( $context.suite_path ) ).then ->
-            $context.target = _$( ".dir-index ul li:contains('#{$context.test_name}')" )
+        $.when( frame.go( $context._root_ ) ).then ->
+            $context.target = _$( ".dir-index ul li:contains('#{$context.cwd}')" )
             $context.action = _$( "#{$context.menu_locator} a:contains('Context')" ).attr('href')
             done()
             
@@ -14,12 +12,12 @@ describe 'edit test context', ->
         delete_folder( $context.suite_path )
     
     it 'should have appropriate href', ->
-        expect( $context.target.text() ).string( $context.test_name )
+        expect( $context.target.text() ).string( $context.cwd )
         
     it 'should have appropriate action', ->
         expect( $context.action ).to.equal( '#editctx' )
         
-     describe 'should open context for editing', ->
+    describe 'should open context for editing', ->
          
         before (done)->
             window.frames[0].ctxMenuActions.dispatcher( $context.action.substring(1), $context.target )
