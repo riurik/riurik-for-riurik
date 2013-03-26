@@ -1,21 +1,19 @@
 describe 'edit test context', ->
     
     before (done)->
-        $context.test_name = 'new-test.js'
-        $context.suite_path = create_folder($context.cwd, $context._root_)
-        $context.test_path = create_test( $context.test_name, $context.suite_path )
-        set_context( $context.suite_path, "[#{$context.ctx_name}]" )
-        $.when( frame.go( $context.suite_path ) ).then ->
-            $context.target = _$( ".dir-index ul li:contains('#{$context.test_name}')" )
-            $context.action = _$( "#{$context.menu_locator} a:contains('Context')" ).attr('href')
+        setup_for_test $context, 'Context', ->
+            set_context( $context.suite_path, "[#{$context.ctx_name}]" )
             done()
             
     after ->
         delete_folder( $context.suite_path )
     
-    it 'should have appropriate href', ->
+    it 'should have appropriate target', ->
         expect( $context.target.text() ).string( $context.test_name )
-        
+
+    it 'should have appropriate context', ->
+        expect( $context.target.attr('class') ).string( 'test' )
+
     it 'should have appropriate action', ->
         expect( $context.action ).to.equal( '#editctx' )
         

@@ -102,7 +102,12 @@ function write_test(path, content) {
 };
 
 function set_context(path, content) {
-  write_test(path + '/.context.ini', content)
+  write_test(path + '/' + $context.ctx_ini, content)
+};
+
+function set_spec(path, url, title) {
+    content = "[DEFAULT]\nurl=" + url + "\ntitle=" + title;
+    write_test(path + '/' + $context.spec_ini, content)
 };
 
 function walker( baseurl , callback ){

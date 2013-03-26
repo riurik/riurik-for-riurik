@@ -1,22 +1,24 @@
-describe 'edit suite context', ->
+describe 'edit test specification', ->
     
     before (done)->
-        setup_for_suite $context, 'Context', ->
+        $context.spec_url = 'http://google.com'
+        setup_for_test $context, 'Specification', ->
+            set_spec( $context.suite_path, $context.spec_url, "" )
             done()
             
     after ->
         delete_folder( $context.suite_path )
     
     it 'should have appropriate target', ->
-        expect( $context.target.text() ).string( $context.cwd )
-        
+        expect( $context.target.text() ).string( $context.test_name )
+
     it 'should have appropriate context', ->
-        expect( $context.target.attr('class') ).string( 'suite' )
-        
+        expect( $context.target.attr('class') ).string( 'test' )
+
     it 'should have appropriate action', ->
-        expect( $context.action ).to.equal( '#editctx' )
+        expect( $context.action ).to.equal( '#editspec' )
         
-    describe 'should open context for editing', ->
+     describe 'should open specification for editing', ->
          
         before (done)->
             window.frames[0].ctxMenuActions.dispatcher( $context.action.substring(1), $context.target )
@@ -25,7 +27,7 @@ describe 'edit suite context', ->
                     done()
             
         it 'editor has appropriate content', ->
-            expect( frame.window().editor.getValue() ).to.equal( "[#{$context.ctx_name}]" )
+            expect( frame.window().editor.getValue() ).string( $context.spec_url )
             
         it 'breadcrumbs shows context.ini title', ->
-            expect( _$($context.breadcrumbs_selector).text() ).string( $context.ctx_ini )
+            expect( _$($context.breadcrumbs_selector).text() ).string( $context.spec_ini )

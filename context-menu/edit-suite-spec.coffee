@@ -1,7 +1,9 @@
-describe 'edit suite context', ->
+describe 'edit suite spec', ->
     
     before (done)->
-        setup_for_suite $context, 'Context', ->
+        $context.spec_url = 'http://google.com'
+        setup_for_suite $context, 'Specification', ->
+            set_spec( $context.suite_path, $context.spec_url, "" )
             done()
             
     after ->
@@ -14,7 +16,7 @@ describe 'edit suite context', ->
         expect( $context.target.attr('class') ).string( 'suite' )
         
     it 'should have appropriate action', ->
-        expect( $context.action ).to.equal( '#editctx' )
+        expect( $context.action ).to.equal( '#editspec' )
         
     describe 'should open context for editing', ->
          
@@ -25,7 +27,7 @@ describe 'edit suite context', ->
                     done()
             
         it 'editor has appropriate content', ->
-            expect( frame.window().editor.getValue() ).to.equal( "[#{$context.ctx_name}]" )
+            expect( frame.window().editor.getValue() ).string( $context.spec_url )
             
         it 'breadcrumbs shows context.ini title', ->
-            expect( _$($context.breadcrumbs_selector).text() ).string( $context.ctx_ini )
+            expect( _$($context.breadcrumbs_selector).text() ).string( $context.spec_ini )
