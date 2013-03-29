@@ -19,9 +19,8 @@ describe 'edit suite context', ->
     describe 'should open context for editing', ->
          
         before (done)->
-            window.frames[0].ctxMenuActions.dispatcher( $context.action.substring(1), $context.target )
-            $.when( frame.load() ).then ->
-                $.waitFor.condition( -> frame.window().editor? ).then ->
+            click_context_menu_frame_load $context.action.substring(1), $context.target, ->
+                $.waitFor.condition( frameEditorIsOpened ).then ->
                     done()
             
         it 'editor has appropriate content', ->

@@ -13,3 +13,11 @@ setup_for_suite = ( $context, menu_name, done )->
         $context.target = _$( ".dir-index ul li:contains('#{$context.cwd}')" )
         $context.action = _$( "#{$context.menu_locator} a:contains('#{menu_name}')" ).attr('href')
         done()
+        
+click_context_menu = (action, target)->        
+    window.frames[0].ctxMenuActions.dispatcher( action, target )
+    
+click_context_menu_frame_load = (action, target, done)->
+    click_context_menu action, target
+    $.when( frame.load() ).then ->
+        done()

@@ -17,12 +17,11 @@ describe 'edit test context', ->
     it 'should have appropriate action', ->
         expect( $context.action ).to.equal( '#editctx' )
         
-     describe 'should open context for editing', ->
+    describe 'should open context for editing', ->
          
         before (done)->
-            window.frames[0].ctxMenuActions.dispatcher( $context.action.substring(1), $context.target )
-            $.when( frame.load() ).then ->
-                $.waitFor.condition( -> frame.window().editor? ).then ->
+            click_context_menu_frame_load $context.action.substring(1), $context.target, ->
+                $.waitFor.condition( frameEditorIsOpened ).then ->
                     done()
             
         it 'editor has appropriate content', ->
