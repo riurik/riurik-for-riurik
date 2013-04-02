@@ -2,7 +2,6 @@ describe 'edit test context', ->
     
     before (done)->
         setup_for_test $context, 'Context', ->
-            set_context( $context.suite_path, "[#{$context.ctx_name}]" )
             done()
             
     after ->
